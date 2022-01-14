@@ -1,0 +1,28 @@
+<!--pages/music/music.wxml-->
+
+
+<swiper class="icon" indicator-dots="true" indicator-color="#0ff" indicator-active-color="#f00" autoplay="true" interval="3000" duration="1000" circular="true">
+  <swiper-item wx:for="{{imgUrls}}" wx:for-item="icon">
+    <image class="swiper" src="{{icon}}"></image>
+  </swiper-item>
+</swiper>
+
+<view class="search_view">
+  <input type="text" class="search" placeholder="歌手/专辑名/歌曲名" bindinput="bindsearch">
+  </input>
+  <button class="button" bindtap="bindtap">搜索</button>
+</view>
+
+<scroll-view class="scroll_view" scroll-y="true" lower-threshold="50" bindscrolltolower="bindlower" refresher-enabled="true" refresher-triggered="{{triggered}}" bindrefresherrefresh="refresh">
+  <view  class="song-item" wx:for="{{ list }}" wx:for-item="list"  wx:key="index">
+  <image class="song_album" src="{{ list.album.artist.img1v1Url }}"></image>
+    <view class="song_msg">
+      <view class="song_name">{{list.name}}</view>
+      <view class="song_singer">
+      {{list.artists[0].name}} -- {{list.album.name}}
+      </view> 
+    </view>
+    <image data-image="{{ list.album.artist.img1v1Url }}" data-id="{{list.id}}" data-song_name="{{list.name}}" data-song_singer="{{list.artists[0].name}}" class="image_paly" src="../../images/play.png" bindtap="toplay"></image>
+  </view>
+
+</scroll-view>

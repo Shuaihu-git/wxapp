@@ -1,0 +1,92 @@
+/* pages/music/music.wxss */
+.item {
+  height: 200px;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.search_view {
+  width: 100%;
+  height: 50px;
+}
+
+.search {
+  width: 80%;
+  height: 100%;
+  float: left;
+  border: 2px solid rgb(238, 56, 10);
+  box-sizing: border-box;
+}
+
+.search_view .button {
+  width: 20%;
+  height: 100%;
+  float: left;
+  font-size: 16px;
+  text-align: center;
+  line-height: 50px;
+  padding: 0;
+  background-color: red;
+  color: white;
+  border-radius: 0;
+}
+
+.scroll_view {
+  height: calc(100% - 200px);
+
+}
+
+page {
+  height: 100%;
+}
+
+.song-item {
+  height: 60px;
+  background-color:rgb(46, 44, 44);
+  margin-bottom: 5px;
+}
+
+.song_album {
+  float: left;
+  height: 60px;
+  width: 60px;
+}
+
+.song_msg {
+  width: calc(100% - 120px);
+  float: left;
+  color: #0ff;
+}
+
+.image_paly {
+  float: left;
+  height: 60px;
+  width: 60px;
+
+}
+
+.song_name {
+  float: left;
+  font-size: 20px;
+  color: #0ff;
+  width: 100%;
+  line-height: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.song_singer {
+  float: left;
+  font-size: 15px;
+  line-height: 30px;
+  color: violet;
+  width: 100%;
+  line-height: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

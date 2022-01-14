@@ -1,0 +1,47 @@
+/* pages/play/play.wxss */
+page{
+  height: 100%;
+}
+.content{
+  height: calc(100% - 60px);
+  background-size: 100% 100% ;
+}
+audio{
+  display: none;
+}
+.song_name{
+  text-align: center;
+  font-size: 20px;
+  color: #0ff;
+  line-height: 100px;
+}
+.song_album{
+  width: 180px;
+  height: 180px;
+  border: 30px solid rgb(19, 18, 18);
+  border-radius: 50%;
+  margin: 50px auto;
+  display: block;
+  animation: play 10s linear 0s infinite;
+  /* 动画名称 动画时间 动画播放速度曲线 动画延迟时间 执行次数 */
+  animation-play-state: running;
+}
+@keyframes play {
+  0%{
+    transform: rotate(0);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
+.bottom{
+  height: 60px;
+  background-color: rgb(194, 12, 12);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.bottom .single,.prev,.next,.play,.xin{
+  height: 45px;
+  width: 45px;
+}

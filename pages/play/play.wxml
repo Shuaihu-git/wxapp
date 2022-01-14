@@ -1,0 +1,14 @@
+<!--pages/play/play.wxml-->
+<audio id="music_play" controls="true" src="http://music.163.com/song/media/outer/url?id={{id}}.mp3 ">
+</audio>
+<view class="content" style="background-image: url({{songMsg.album.picUrl}})">
+  <view class="song_name">{{songMsg.name}}</view>
+  <image style="animation-play-state:{{status ? running :'paused'}}" class="song_album" src="{{songMsg.album.picUrl}}"></image>
+</view>
+<view class="bottom">
+<image class="single" bindtap="bindsingle" src="../../images/single.png"></image>
+<image class="prev" bindtap="bindprev" src="../../images/prev.png"></image>
+<image class="play" bindtap="bindplay" src="../../images/{{status ? 'pause' : 'play'}}.png"></image>
+<image class="next" bindtap="bindnext" src="../../images/next.png"></image>
+<image class="xin" bindtap="bindxin" src="../../images/xin.png"></image>
+</view>
