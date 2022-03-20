@@ -10,6 +10,7 @@ Page({
     num: 10,
     name: '',
     list: [],
+    songMsg:{},
     imgUrls: [
       'http://p1.music.126.net/emrGqHYHrptFx3yZX0ZIDw==/109951166920191403.jpg',
       'http://p1.music.126.net/Xbld5gXLLntSWToS0_Umbw==/109951166920070026.jpg',

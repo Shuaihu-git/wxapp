@@ -1,2 +1,41 @@
 <!--pages/user/user.wxml-->
-<text>待开发中</text>
+<swiper class="swiper">
+  <swiper-item>
+    <image class="image" src="{{ image }}"></image>
+  </swiper-item>
+  <swiper-item></swiper-item>
+</swiper>
+
+<view class="content">
+  <image class="head" src="../../images/head.jpeg"></image>
+  <view class="jiaoji_a">
+    <view class="fans_num">99+</view>
+    <view class="subscription_num">99+</view>
+    <view class="agree_num">99+</view>
+  </view>
+  <view class="jiaoji_b">
+
+    <view class="fans">粉丝</view>
+    <view class="subscription">关注</view>
+    <view class="agree">获赞</view>
+
+  </view>
+  <view class="v_button">
+    <button class="button">编辑资料</button>
+  </view>
+
+</view>
+
+<view class="xinxi">
+  <view class="name">{{name}}</view>
+  <image class="male" src="{{male}}"></image>
+</view>
+
+<view class="str">{{str}}</view>
+<view class="view">
+  <view class="v1">动态</view>
+  <view class="v2">视频</view>
+</view>
+<view class="bottom">
+  <view class="bottom_str">该UP主貌似最近没有更新~</view>
+</view>

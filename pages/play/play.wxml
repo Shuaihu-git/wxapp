@@ -1,14 +1,30 @@
 <!--pages/play/play.wxml-->
-<audio id="music_play" controls="true" src="http://music.163.com/song/media/outer/url?id={{id}}.mp3 ">
+<audio id="music_play" controls="true" src="http://music.163.com/song/media/outer/url?id={{id}}.mp3 " loop="{{loopstatus}}" bindended="bindended" bindtimeupdate="bindtimeupdate">
 </audio>
 <view class="content" style="background-image: url({{songMsg.album.picUrl}})">
   <view class="song_name">{{songMsg.name}}</view>
-  <image style="animation-play-state:{{status ? running :'paused'}}" class="song_album" src="{{songMsg.album.picUrl}}"></image>
+
+ <swiper class="swiper_album">
+ <swiper-item> <image style="animation-play-state:{{status ? 'running' :'paused'}}" class="song_album" src="{{songMsg.album.picUrl}}"></image></swiper-item>
+ <swiper-item>
+ <scroll-view class="srcoll_view" scroll-y="true">
+
+ <view class="song_word {{wordIndex == index ? 'active':''}}" wx:for="{{ lyric }}" wx:for-item="lyric" wx:key="index">{{ lyric[1] }}</view>
+</scroll-view>
+ </swiper-item>
+ </swiper>
+
+  <view class="progress_content">
+  <view class="nowtime">{{ nowtime }}</view> 
+  <slider bindchange="bindchange" class="progress" activeColor="#c20c0c" value="{{value}}" max="{{max}}" block-size="12"></slider>
+  <view class="alltime">{{ alltime }}</view>
+  </view>
 </view>
+
 <view class="bottom">
-<image class="single" bindtap="bindsingle" src="../../images/single.png"></image>
-<image class="prev" bindtap="bindprev" src="../../images/prev.png"></image>
-<image class="play" bindtap="bindplay" src="../../images/{{status ? 'pause' : 'play'}}.png"></image>
-<image class="next" bindtap="bindnext" src="../../images/next.png"></image>
-<image class="xin" bindtap="bindxin" src="../../images/xin.png"></image>
+  <image class="single" bindtap="bindsingle" src="../../images/{{loopstatus ? 'single':'loop'}}.png"></image>
+  <image class="prev" bindtap="bindprev" src="../../images/prev.png"></image>
+  <image class="play" bindtap="bindplay" src="../../images/{{status ? 'pause' : 'play'}}.png"></image>
+  <image class="next" bindtap="bindnext" src="../../images/next.png"></image>
+  <image class="xin" bindtap="bindxin" src="../../images/xin.png"></image>
 </view>

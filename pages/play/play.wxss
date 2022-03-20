@@ -45,3 +45,40 @@ audio{
   height: 45px;
   width: 45px;
 }
+.progress_content{
+  width: 100%;
+  position: absolute;
+  bottom: 80px;
+  left: 0;
+  color: white;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+.progress{
+  flex: 1;
+  
+  background: rgba(red, green, blue, alpha);
+  
+}
+.nowtime, .alltime{
+  color: #0ff;
+padding-left: 20px;
+padding-right: 20px;
+}
+.swiper_album{
+  height: calc(100% - 200px);
+}
+.srcoll_view{
+  height: 100%;
+}
+.song_word{
+  height: 30px;
+  line-height: 30px;
+  color: rgb(104, 138, 138);
+  text-align:center;
+  font-size: 15px;
+}
+.active{
+  color: #0ff;
+}

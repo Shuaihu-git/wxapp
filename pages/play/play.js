@@ -8,12 +8,20 @@ Page({
    */
   data: {
     id: '',
+    nowtime: '00:00',
+    alltime: '04:35',
+    value: 0,
+    max: 100,
     songMsg: {},
     status: true,
     songid: [],
-    songIndex: 0
+    songIndex: 0,
+    loopstatus: true,
+    lyric: [],
+    wordIndex: 0
   },
   bindplay: function () {
+
     if (this.data.status == true) {
       music.pause()
       this.setData({
@@ -29,6 +37,7 @@ Page({
   },
   bindnext: function () {
     var index = this.data.songIndex
+
     if (index + 1 == this.data.songid.length) {
       index = 0
     } else {
@@ -39,27 +48,36 @@ Page({
       url: 'https://music.163.com/api/song/detail/?id=' + id + '&ids=[' + id + ']',
       success: (res) => {
         console.log(res)
+        var duration = res.data.songs[0].duration
+        duration = Math.floor(duration / 1000)
+        var mm = Math.floor(duration / 60)
+        var ss = duration % 60
+        mm = mm >= 10 ? mm : '0' + mm
+        ss = ss >= 10 ? ss : '0' + ss
+        var ms = mm + ':' + ss
         this.setData({
           songMsg: res.data.songs[0]
         })
         this.setData({
           id: id,
-          songIndex: index
+          songIndex: index,
+          status: true,
+          max: duration,
+          alltime: ms
         })
         music.play()
+        this.bindlyric()
       },
       fail: (error) => {
         console.log(error)
       }
     })
 
-
-
   },
   bindprev: function () {
     var index = this.data.songIndex
-    if (index  == 0) {
-      index = this.data.songid.length-1
+    if (index == 0) {
+      index = this.data.songid.length - 1
     } else {
       index = index - 1
     }
@@ -68,14 +86,25 @@ Page({
       url: 'https://music.163.com/api/song/detail/?id=' + id + '&ids=[' + id + ']',
       success: (res) => {
         console.log(res)
+        var duration = res.data.songs[0].duration
+        duration = Math.floor(duration / 1000)
+        var mm = Math.floor(duration / 60)
+        var ss = duration % 60
+        mm = mm >= 10 ? mm : '0' + mm
+        ss = ss >= 10 ? ss : '0' + ss
+        var ms = mm + ':' + ss
         this.setData({
           songMsg: res.data.songs[0]
         })
         this.setData({
           id: id,
-          songIndex: index
+          songIndex: index,
+          status: true,
+          max: duration,
+          alltime: ms
         })
         music.play()
+        this.bindlyric()
       },
       fail: (error) => {
         console.log(error)
@@ -83,6 +112,103 @@ Page({
     })
   },
   bindsingle: function () {
+    if (this.data.loopstatus) {
+      this.setData({
+        loopstatus: ''
+      })
+    } else {
+      this.setData({
+        loopstatus: true
+      })
+    }
+  },
+  bindended: function () {
+    if (this.data.loopstatus) {
+      music.play()
+    } else {
+      this.bindnext()
+    }
+  },
+  bindtimeupdate: function (e) {
+
+    // console.log(e.detail)
+    var time1 = e.detail.currentTime
+    var arr = this.data.lyric
+    for (var i = 0; i < arr.length; i++) {
+      if (time1 >= arr[i][0] && time1 < arr[i + 1][0])
+        this.setData({
+          wordIndex: i
+        })
+    }
+    var time = Math.floor(e.detail.currentTime)
+    var mm = Math.floor(time / 60)
+    var ss = time % 60
+    mm = mm >= 10 ? mm : '0' + mm
+    ss = ss >= 10 ? ss : '0' + ss
+    var ms = mm + ':' + ss
+
+    this.setData({
+      nowtime: ms,
+      value: time
+    })
+
+  },
+  bindchange: function (e) {
+    console.log(e.detail.value)
+    var time = e.detail.value
+    var mm = Math.floor(time / 60)
+    var ss = time % 60
+    mm = mm >= 10 ? mm : '0' + mm
+    ss = ss >= 10 ? ss : '0' + ss
+    var ms = mm + ':' + ss
+    this.setData({
+      status: true,
+      value: time
+    })
+    music.seek(time)
+    music.play()
+
+  },
+  bindlyric: function () {
+    var id = this.data.id
+    wx.request({
+      url: 'https://music.163.com/api/song/lyric?os=pc&id=' + id + '&lv=-1&kv=-1&tv=-1',
+      success: (res) => {
+        console.log(res)
+        var str = res.data.lrc.lyric
+        var arr = str.split('\n')
+        console.log(arr)
+        if (arr[arr.length - 1] == '') {
+          arr.pop() //最后空内容出栈（去除最后的空字符）
+        } else {
+
+        }
+        var pattern = /\[\d{2}:\d{2}\.\d{1,3}\]/ //正则表达式
+        var arr1 = []
+        arr.forEach((item, index, arr) => { //(内容，下标，遍历数组)
+          var time = item.match(pattern)
+          var word = item.replace(pattern, "")
+          if (time != null) {
+            var timestr = time[0].slice(1, -1)
+            var tarr = timestr.split(":")
+            var ltime = tarr[0] * 60 + tarr[1] * 1
+            arr1.push([ltime, word])
+          }
+
+        })
+
+        var arr2 = []
+        for (var i = 0; i < arr1.length; i++) {
+          if (arr1[i][1] !== '') {
+            arr2.push(arr1[i])
+          }
+        }
+        this.setData({
+          lyric: arr2
+        })
+        console.log(this.data.lyric)
+      }
+    })
 
   },
   /**
@@ -103,8 +229,17 @@ Page({
       url: 'https://music.163.com/api/song/detail/?id=' + options.id + '&ids=[' + options.id + ']',
       success: (res) => {
         console.log(res)
+        var duration = res.data.songs[0].duration
+        duration = Math.floor(duration / 1000)
+        var mm = Math.floor(duration / 60)
+        var ss = duration % 60
+        mm = mm >= 10 ? mm : '0' + mm
+        ss = ss >= 10 ? ss : '0' + ss
+        var ms = mm + ':' + ss
         this.setData({
-          songMsg: res.data.songs[0]
+          songMsg: res.data.songs[0],
+          max: duration,
+          alltime: ms
         })
       },
       fail: (error) => {
@@ -113,8 +248,8 @@ Page({
     })
     music = wx.createAudioContext('music_play')
     music.play()
-    music.play()
-    // music.pause()
+    this.bindlyric()
+
     // music.seek()
 
   },
